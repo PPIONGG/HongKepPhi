@@ -1,26 +1,177 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --night: #120d09;
+  --cabinet: #1b1510;
+  --shelf: #251c14;
+  --paper: #f3e6d0;
+  --dust: #c4ae90;
+  --ember: #d2652a;
+  --ember-soft: #e8894a;
+  --sage: #8bb89a;
+  --rust: #8b3a3a;
+  --frame: #d8c7aa;
+  --tape: #c9a36a;
+  --slip: #2a2118;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-night: var(--night);
+  --color-cabinet: var(--cabinet);
+  --color-shelf: var(--shelf);
+  --color-paper: var(--paper);
+  --color-dust: var(--dust);
+  --color-ember: var(--ember);
+  --color-ember-soft: var(--ember-soft);
+  --color-sage: var(--sage);
+  --color-rust: var(--rust);
+  --color-frame: var(--frame);
+  --color-tape: var(--tape);
+  --color-slip: var(--slip);
+  --font-display: var(--font-display);
+  --font-serif: var(--font-serif);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  background: var(--night);
+  color: var(--paper);
+  color-scheme: dark;
+  scroll-behavior: smooth;
+  overflow-x: clip;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100dvh;
+  overflow-x: clip;
+  background:
+    radial-gradient(80vw 52vh at 8% -8%, rgba(210, 101, 42, 0.2), transparent 58%),
+    radial-gradient(55vw 40vh at 96% 8%, rgba(139, 58, 58, 0.1), transparent 52%),
+    radial-gradient(40vw 30vh at 70% 100%, rgba(139, 184, 154, 0.05), transparent 60%),
+    linear-gradient(180deg, #1a120d 0%, var(--night) 34%, #0d0907 100%);
+  color: var(--paper);
+  font-family: var(--font-sans), "Sarabun", sans-serif;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 40;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: auto 0 0 0;
+  height: 28vh;
+  pointer-events: none;
+  z-index: 5;
+  background: linear-gradient(to top, rgba(13, 9, 7, 0.55), transparent);
+}
+
+::selection {
+  background: rgba(210, 101, 42, 0.38);
+  color: var(--paper);
+}
+
+:focus-visible {
+  outline: 2px solid var(--ember-soft);
+  outline-offset: 3px;
+}
+
+a,
+button,
+input,
+select,
+textarea {
+  touch-action: manipulation;
+}
+
+.chip-row {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.chip-row::-webkit-scrollbar {
+  display: none;
+}
+
+.chip-row > * {
+  scroll-snap-align: start;
+}
+
+body:has([data-sticky-listen]) footer {
+  padding-bottom: 5.75rem;
+}
+
+@media (min-width: 1024px) {
+  body:has([data-sticky-listen]) footer {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+.ember-pulse {
+  animation: ember-pulse 4.8s var(--ease) infinite;
+}
+
+.rise-in {
+  animation: rise-in 700ms var(--ease) both;
+}
+
+.stagger-card {
+  animation: rise-in 560ms var(--ease) both;
+}
+
+@keyframes ember-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .ember-pulse,
+  .rise-in,
+  .stagger-card {
+    animation: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

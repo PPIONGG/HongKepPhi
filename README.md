@@ -1,36 +1,26 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ห้องเก็บผี
 
-## Getting Started
+เว็บ Next.js สำหรับเก็บเรื่องผีที่เจ้าของห้องฟังมาจาก YouTube แล้วอยากชี้ทางให้คนอื่นกดไปฟังคลิปต้นฉบับได้
 
-First, run the development server:
+## รันโปรเจกต์
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+เปิด [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## เพิ่มเรื่องใหม่
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+แก้ไฟล์ `src/data/stories.ts` แล้วแปะก้อนข้อมูลเรื่องใหม่ไว้บนสุดของอาร์เรย์
 
-## Learn More
+- `youtubeId` คือรหัสหลัง `v=` ในลิงก์ เช่น `https://www.youtube.com/watch?v=2-u9-RuHUjc` ใช้ `2-u9-RuHUjc`
+- `note` คือบันทึกของเจ้าของห้อง ว่าทำไมถึงเก็บเรื่องนี้
+- ตั้ง `featured: true` ได้แค่เรื่องเดียว เรื่องนั้นจะขึ้นเป็นเรื่องที่เพิ่งเก็บ
 
-To learn more about Next.js, take a look at the following resources:
+## สคริปต์
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `npm run dev` — เปิดโหมดพัฒนา
+- `npm run build` — สร้างไฟล์สำหรับขึ้นโฮสต์
+- `npm run start` — รันบิลด์ที่เสร็จแล้ว
