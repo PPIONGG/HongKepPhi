@@ -121,6 +121,43 @@ body:has([data-sticky-listen]) footer {
   }
 }
 
+.dust-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.dust-mote {
+  position: absolute;
+  bottom: -8px;
+  border-radius: 9999px;
+  background: var(--dust);
+  opacity: 0;
+  will-change: transform, opacity;
+  animation-name: dust-rise;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes dust-rise {
+  0% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.22;
+  }
+  80% {
+    opacity: 0.14;
+  }
+  100% {
+    transform: translate3d(var(--drift), -105vh, 0);
+    opacity: 0;
+  }
+}
+
 .ember-pulse {
   animation: ember-pulse 4.8s var(--ease) infinite;
 }
@@ -165,6 +202,10 @@ body:has([data-sticky-listen]) footer {
   .rise-in,
   .stagger-card {
     animation: none;
+  }
+
+  .dust-layer {
+    display: none;
   }
 
   *,

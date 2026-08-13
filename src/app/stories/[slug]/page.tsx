@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { DecryptedText } from "@/components/reactbits/DecryptedText";
 import { RelatedStories } from "@/components/RelatedStories";
+import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { StoryThumb } from "@/components/StoryThumb";
 import { YoutubeButton } from "@/components/YoutubeButton";
 import { YoutubeEmbed } from "@/components/YoutubeEmbed";
@@ -64,7 +66,7 @@ export default async function StoryPage({ params }: StoryPageProps) {
           </Link>
           <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-[11px] tracking-[0.16em] text-dust uppercase sm:mt-8 sm:gap-x-4">
             <span className="border border-night/10 bg-paper px-2 py-1 text-night">
-              {story.catalog}
+              <DecryptedText text={story.catalog} />
             </span>
             <span className="text-sage">{CATEGORIES[story.category].label}</span>
             <time dateTime={story.listenedAt}>
@@ -76,7 +78,13 @@ export default async function StoryPage({ params }: StoryPageProps) {
           </h1>
           <p className="mt-3 text-sm text-dust sm:mt-4 sm:text-base">
             {story.guest ? `${story.guest} · ` : ""}
-            {story.channel} · {story.duration}
+            {story.channel} ·{" "}
+            <DecryptedText
+              text={story.duration}
+              animateOn="hover"
+              characters="0123456789:"
+              parentClassName="cursor-default"
+            />
           </p>
         </div>
       </header>
@@ -85,7 +93,7 @@ export default async function StoryPage({ params }: StoryPageProps) {
         <YoutubeEmbed youtubeId={story.youtubeId} title={story.title} />
 
         <div className="mt-8 grid gap-6 lg:mt-10 lg:grid-cols-[minmax(0,1fr)_240px] lg:gap-10">
-          <div className="border border-paper/10 bg-slip px-4 py-6 sm:px-8 sm:py-7">
+          <RevealOnScroll className="border border-paper/10 bg-slip px-4 py-6 sm:px-8 sm:py-7">
             <p className="font-mono text-[11px] tracking-[0.24em] text-ember uppercase">
               ใบจดของเจ้าของห้อง
             </p>
@@ -105,7 +113,7 @@ export default async function StoryPage({ params }: StoryPageProps) {
             <div className="mt-8 hidden lg:block">
               <YoutubeButton youtubeId={story.youtubeId} title={story.title} size="lg" />
             </div>
-          </div>
+          </RevealOnScroll>
 
           <aside className="h-fit border border-paper/10 bg-cabinet p-4">
             <p className="text-sm leading-relaxed text-dust">

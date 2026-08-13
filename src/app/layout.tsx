@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Charmonman, IBM_Plex_Mono, Noto_Serif_Thai, Sarabun } from "next/font/google";
+import { DustMotes } from "@/components/DustMotes";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import "./globals.css";
@@ -64,6 +65,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         >
           ข้ามไปเนื้อหา
         </a>
+        <DustMotes />
         <SiteHeader />
         <main id="main" className="relative z-10 flex-1">
           {children}

@@ -2,6 +2,8 @@ import Link from "next/link";
 import { Play } from "lucide-react";
 import { CATEGORIES, type Story } from "@/lib/types";
 import { formatListenedAt, youtubeWatchUrl } from "@/lib/youtube";
+import { DecryptedText } from "./reactbits/DecryptedText";
+import { ShinyText } from "./reactbits/ShinyText";
 import { StoryThumb } from "./StoryThumb";
 
 export function FeaturedStory({ story }: { story: Story }) {
@@ -18,18 +20,18 @@ export function FeaturedStory({ story }: { story: Story }) {
         <div className="absolute inset-0 bg-gradient-to-t from-night via-night/20 to-transparent lg:via-night/70 lg:to-night/25" />
         <div className="absolute inset-0 hidden bg-gradient-to-r from-night/70 via-transparent to-night/20 lg:block" />
         <span className="absolute left-4 top-4 border border-night/10 bg-paper px-2.5 py-1 font-mono text-[11px] tracking-[0.18em] text-night lg:hidden">
-          {story.catalog}
+          <DecryptedText text={story.catalog} />
         </span>
       </div>
 
       <div className="relative mx-auto flex max-w-6xl flex-col justify-end px-4 pt-5 pb-8 sm:px-6 sm:pt-6 lg:min-h-[72dvh] lg:pt-16 lg:pb-16">
         <div className="rise-in max-w-3xl">
-          <p className="hidden font-display text-4xl leading-none text-paper/90 lg:block">
-            ห้องเก็บผี
+          <p className="hidden font-display text-4xl leading-none lg:block">
+            <ShinyText text="ห้องเก็บผี" speed={2.4} delay={3} />
           </p>
           <div className="flex flex-wrap items-center gap-3 lg:mt-6">
             <span className="hidden border border-night/10 bg-paper px-2.5 py-1 font-mono text-[11px] tracking-[0.18em] text-night lg:inline">
-              {story.catalog}
+              <DecryptedText text={story.catalog} />
             </span>
             <p
               id="featured-heading"

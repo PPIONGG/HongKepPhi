@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Play } from "lucide-react";
 import { CATEGORIES, type Story } from "@/lib/types";
 import { formatListenedAt } from "@/lib/youtube";
+import { SpotlightCard } from "./reactbits/SpotlightCard";
 import { StoryThumb } from "./StoryThumb";
 import { YoutubeButton } from "./YoutubeButton";
 
@@ -13,8 +14,9 @@ export function StoryCard({
   index?: number;
 }) {
   return (
-    <article
-      className="stagger-card group flex h-full flex-col border border-paper/10 bg-cabinet/90 transition duration-200 active:bg-shelf sm:hover:-translate-y-1 sm:hover:border-ember/35 sm:hover:bg-shelf sm:hover:shadow-[0_16px_40px_rgba(0,0,0,0.35)]"
+    <SpotlightCard
+      as="article"
+      className="stagger-card group flex h-full flex-col overflow-hidden border border-paper/10 bg-cabinet/90 transition duration-200 active:bg-shelf sm:hover:-translate-y-1 sm:hover:border-ember/35 sm:hover:bg-shelf sm:hover:shadow-[0_16px_40px_rgba(0,0,0,0.35)]"
       style={{ animationDelay: `${Math.min(index, 8) * 45}ms` }}
     >
       <Link href={`/stories/${story.slug}`} className="block cursor-pointer">
@@ -73,6 +75,6 @@ export function StoryCard({
         </Link>
         <YoutubeButton youtubeId={story.youtubeId} title={story.title} full="mobile" />
       </div>
-    </article>
+    </SpotlightCard>
   );
 }
