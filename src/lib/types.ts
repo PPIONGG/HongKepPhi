@@ -5,7 +5,12 @@ export const CATEGORIES = {
   forest: { label: "ป่าเขา", hint: "ป่า เขา ทางเปลี่ยว" },
   temple: { label: "วัด", hint: "วัด สถานที่ศักดิ์สิทธิ์" },
   road: { label: "ถนน", hint: "รถ ทาง เดินทาง" },
+  hospital: { label: "โรงพยาบาล", hint: "โรงพยาบาล คลินิก ห้องดับจิต" },
+  military: { label: "ทหาร", hint: "ค่ายทหาร เกณฑ์ทหาร" },
+  water: { label: "ทะเล/แม่น้ำ", hint: "ทะเล เรือ แม่น้ำ คนจมน้ำ" },
+  ruins: { label: "ตึกร้าง", hint: "ตึกร้าง คอนโดร้าง โรงงานร้าง" },
   mix: { label: "รวมเรื่อง", hint: "คลิปรวมหลายตอน" },
+  other: { label: "อื่นๆ", hint: "ที่ที่ยังไม่มีชั้นของตัวเอง" },
 } as const;
 
 export type CategoryId = keyof typeof CATEGORIES;

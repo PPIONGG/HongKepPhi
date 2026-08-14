@@ -6,14 +6,6 @@ import { useMemo, useState } from "react";
 import { CATEGORIES, type CategoryId, type Story } from "@/lib/types";
 import { StoryCard } from "./StoryCard";
 
-const filters: Array<{ id: "all" | CategoryId; label: string }> = [
-  { id: "all", label: "ทั้งหมด" },
-  ...Object.entries(CATEGORIES).map(([id, value]) => ({
-    id: id as CategoryId,
-    label: value.label,
-  })),
-];
-
 export function StoryShelf({
   stories,
   featuredSlug,
@@ -25,6 +17,16 @@ export function StoryShelf({
 }) {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<"all" | CategoryId>("all");
+
+  const filters = useMemo(() => {
+    const present = new Set(stories.map((story) => story.category));
+    return [
+      { id: "all" as const, label: "ทั้งหมด" },
+      ...Object.entries(CATEGORIES)
+        .filter(([id]) => present.has(id as CategoryId))
+        .map(([id, value]) => ({ id: id as CategoryId, label: value.label })),
+    ];
+  }, [stories]);
 
   const visible = useMemo(() => {
     const needle = query.trim().toLowerCase();

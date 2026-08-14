@@ -64,9 +64,9 @@ Expected: ไม่มี output (ผ่าน) — `CategoryId` ขยายเ
 
 Run:
 ```bash
-curl -s http://localhost:3000/ | grep -c 'role="tab"'
+curl -s http://localhost:3000/ | grep -o 'role="tab"' | wc -l | tr -d ' '
 ```
-Expected: `13` — นี่คืออาการที่ Step 4-5 จะแก้ ถ้าได้ `8` แปลว่า Step 1 ยังไม่มีผล ให้เช็คว่า dev server รันอยู่จริง
+Expected: `13` — นี่คืออาการที่ Step 4-5 จะแก้ ถ้าได้ `8` แปลว่า Step 1 ยังไม่มีผล (ห้ามใช้ `grep -c` — HTML อยู่บรรทัดเดียว จะได้ `1` เสมอ) ให้เช็คว่า dev server รันอยู่จริง
 
 - [ ] **Step 4: ย้าย `filters` เข้าไปในคอมโพเนนต์ให้คำนวณจากเรื่องที่มีจริง**
 
@@ -103,7 +103,7 @@ const filters: Array<{ id: "all" | CategoryId; label: string }> = [
 Run:
 ```bash
 npx tsc --noEmit && npx eslint src
-curl -s http://localhost:3000/ | grep -c 'role="tab"'
+curl -s http://localhost:3000/ | grep -o 'role="tab"' | wc -l | tr -d ' '
 ```
 Expected: tsc/eslint ไม่มี output แล้ว `grep -c` ได้ `2` (ทั้งหมด + บ้าน) เพราะตู้มีเรื่องเดียวหมวด `home`
 
