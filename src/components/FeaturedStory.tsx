@@ -5,6 +5,7 @@ import { formatListenedAt, youtubeWatchUrl } from "@/lib/youtube";
 import { DecryptedText } from "./reactbits/DecryptedText";
 import { ShinyText } from "./reactbits/ShinyText";
 import { StoryThumb } from "./StoryThumb";
+import { TagList } from "./TagList";
 
 export function FeaturedStory({ story }: { story: Story }) {
   return (
@@ -57,6 +58,8 @@ export function FeaturedStory({ story }: { story: Story }) {
           <p className="mt-3 font-mono text-[11px] tracking-wide text-dust">
             เก็บเมื่อ {formatListenedAt(story.listenedAt)}
           </p>
+
+          <TagList tags={story.tags} className="mt-4" />
 
           <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap sm:items-center">
             <a

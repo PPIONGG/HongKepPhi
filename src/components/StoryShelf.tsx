@@ -17,18 +17,21 @@ const filters: Array<{ id: "all" | CategoryId; label: string }> = [
 export function StoryShelf({
   stories,
   featuredSlug,
+  activeTag,
 }: {
   stories: Story[];
   featuredSlug?: string;
+  activeTag?: string;
 }) {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<"all" | CategoryId>("all");
 
   const visible = useMemo(() => {
     const needle = query.trim().toLowerCase();
-    const searching = needle.length > 0 || category !== "all";
+    const searching = needle.length > 0 || category !== "all" || Boolean(activeTag);
     return stories.filter((story) => {
       if (!searching && featuredSlug && story.slug === featuredSlug) return false;
+      if (activeTag && !story.tags.includes(activeTag)) return false;
       const inCategory = category === "all" || story.category === category;
       if (!inCategory) return false;
       if (!needle) return true;
@@ -45,7 +48,7 @@ export function StoryShelf({
         .toLowerCase();
       return haystack.includes(needle);
     });
-  }, [stories, query, category, featuredSlug]);
+  }, [stories, query, category, featuredSlug, activeTag]);
 
   const suggestions = useMemo(() => {
     const needle = query.trim().toLowerCase();
@@ -58,10 +61,11 @@ export function StoryShelf({
       .slice(0, 4);
   }, [stories, query]);
 
-  const searching = query.trim().length > 0 || category !== "all";
+  const searching =
+    query.trim().length > 0 || category !== "all" || Boolean(activeTag);
 
   return (
-    <section aria-labelledby="shelf-heading" className="mt-10 sm:mt-16">
+    <section id="shelf" aria-labelledby="shelf-heading" className="mt-10 scroll-mt-24 sm:mt-16">
       <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between lg:gap-6">
         <div>
           <p className="font-mono text-[11px] tracking-[0.28em] text-dust uppercase">
@@ -141,7 +145,31 @@ export function StoryShelf({
         })}
       </div>
 
-      {visible.length === 0 ? (
+      {activeTag && (
+        <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2 border-l-2 border-ember bg-cabinet/60 px-4 py-3">
+          <p className="text-sm text-dust">
+            กำลังดูแท็ก{" "}
+            <span className="text-paper">{activeTag}</span>
+          </p>
+          <Link
+            href="/#shelf"
+            className="inline-flex min-h-8 cursor-pointer items-center text-sm text-ember-soft underline-offset-4 hover:underline"
+          >
+            เลิกดูแท็กนี้
+          </Link>
+        </div>
+      )}
+
+      {visible.length === 0 && !searching ? (
+        <div className="mt-10 border border-dashed border-paper/15 px-6 py-14 text-center">
+          <p className="font-serif text-3xl text-paper">ตู้นี้เพิ่งเริ่มเก็บ</p>
+          <p className="mx-auto mt-3 max-w-md text-dust">
+            {stories.length === 0
+              ? "ยังไม่มีเรื่องไหนถูกเก็บเข้าตู้ กลับมาใหม่อีกทีหลังคืนที่ฟังแล้วนอนไม่หลับ"
+              : "ตอนนี้มีเรื่องเดียวในตู้ และมันอยู่ข้างบนนี้แล้ว ชั้นวางจะเริ่มมีของเมื่อเก็บเรื่องที่สอง"}
+          </p>
+        </div>
+      ) : visible.length === 0 ? (
         <div className="mt-10 border border-dashed border-paper/15 px-6 py-14 text-center">
           <p className="font-serif text-3xl text-paper">ชั้นนี้ยังว่าง</p>
           <p className="mx-auto mt-3 max-w-md text-dust">
@@ -163,21 +191,35 @@ export function StoryShelf({
               </button>
             ))}
           </div>
-          <button
-            type="button"
-            onClick={() => {
-              setQuery("");
-              setCategory("all");
-            }}
-            className="mt-5 min-h-11 cursor-pointer border border-paper/20 px-4 text-sm text-paper hover:border-ember hover:text-ember-soft"
-          >
-            เปิดชั้นทั้งหมด
-          </button>
+          {activeTag ? (
+            <Link
+              href="/#shelf"
+              className="mt-5 inline-flex min-h-11 cursor-pointer items-center border border-paper/20 px-4 text-sm text-paper hover:border-ember hover:text-ember-soft"
+            >
+              เปิดชั้นทั้งหมด
+            </Link>
+          ) : (
+            <button
+              type="button"
+              onClick={() => {
+                setQuery("");
+                setCategory("all");
+              }}
+              className="mt-5 min-h-11 cursor-pointer border border-paper/20 px-4 text-sm text-paper hover:border-ember hover:text-ember-soft"
+            >
+              เปิดชั้นทั้งหมด
+            </button>
+          )}
         </div>
       ) : (
         <div className="mt-6 grid gap-5 pt-3 sm:mt-8 sm:grid-cols-2 sm:gap-6 xl:grid-cols-3">
           {visible.map((story, index) => (
-            <StoryCard key={story.slug} story={story} index={index} />
+            <StoryCard
+              key={story.slug}
+              story={story}
+              index={index}
+              activeTag={activeTag}
+            />
           ))}
         </div>
       )}

@@ -5,6 +5,7 @@ import { DecryptedText } from "@/components/reactbits/DecryptedText";
 import { RelatedStories } from "@/components/RelatedStories";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { StoryThumb } from "@/components/StoryThumb";
+import { TagList } from "@/components/TagList";
 import { YoutubeButton } from "@/components/YoutubeButton";
 import { YoutubeEmbed } from "@/components/YoutubeEmbed";
 import {
@@ -100,16 +101,7 @@ export default async function StoryPage({ params }: StoryPageProps) {
             <p className="mt-4 max-w-prose text-base leading-relaxed text-pretty text-paper/90 sm:text-lg">
               {story.note}
             </p>
-            <ul className="mt-6 flex flex-wrap gap-2">
-              {story.tags.map((tag) => (
-                <li
-                  key={tag}
-                  className="border border-paper/12 px-3 py-1 text-sm text-dust"
-                >
-                  {tag}
-                </li>
-              ))}
-            </ul>
+            <TagList tags={story.tags} className="mt-6" />
             <div className="mt-8 hidden lg:block">
               <YoutubeButton youtubeId={story.youtubeId} title={story.title} size="lg" />
             </div>

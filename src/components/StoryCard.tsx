@@ -4,14 +4,17 @@ import { CATEGORIES, type Story } from "@/lib/types";
 import { formatListenedAt } from "@/lib/youtube";
 import { SpotlightCard } from "./reactbits/SpotlightCard";
 import { StoryThumb } from "./StoryThumb";
+import { TagList } from "./TagList";
 import { YoutubeButton } from "./YoutubeButton";
 
 export function StoryCard({
   story,
   index = 0,
+  activeTag,
 }: {
   story: Story;
   index?: number;
+  activeTag?: string;
 }) {
   return (
     <SpotlightCard
@@ -66,7 +69,10 @@ export function StoryCard({
           </p>
         </div>
       </Link>
-      <div className="mt-auto flex flex-col gap-2 px-4 pb-4 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
+      <div className="mt-auto px-4 pt-1 pb-3">
+        <TagList tags={story.tags} activeTag={activeTag} />
+      </div>
+      <div className="flex flex-col gap-2 px-4 pb-4 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
         <Link
           href={`/stories/${story.slug}`}
           className="inline-flex min-h-11 cursor-pointer items-center justify-center text-sm text-dust underline-offset-4 hover:text-paper hover:underline sm:justify-start"

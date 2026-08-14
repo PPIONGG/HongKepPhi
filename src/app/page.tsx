@@ -4,7 +4,13 @@ import { StoryShelf } from "@/components/StoryShelf";
 import { getFeaturedStory, stories } from "@/data/stories";
 import { formatListenedAt, latestListenedAt } from "@/lib/youtube";
 
-export default function HomePage() {
+export default async function HomePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ tag?: string | string[] }>;
+}) {
+  const { tag } = await searchParams;
+  const activeTag = Array.isArray(tag) ? tag[0] : tag;
   const featured = getFeaturedStory();
   const latest = latestListenedAt(stories);
 
@@ -39,7 +45,11 @@ export default function HomePage() {
           </dl>
         </section>
 
-        <StoryShelf stories={stories} featuredSlug={featured.slug} />
+        <StoryShelf
+          stories={stories}
+          featuredSlug={featured.slug}
+          activeTag={activeTag}
+        />
 
         <section className="mt-12 border border-paper/10 bg-gradient-to-br from-shelf to-cabinet px-4 py-8 sm:mt-20 sm:px-10 sm:py-10">
           <p className="font-mono text-[11px] tracking-[0.28em] text-dust uppercase">
