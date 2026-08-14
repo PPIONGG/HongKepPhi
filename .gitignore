@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# handoff notes (ใช้ส่งงานระหว่าง session ไม่ต้องขึ้น repo)
+/docs/handoff/
