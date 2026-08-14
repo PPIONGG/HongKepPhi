@@ -3,6 +3,7 @@ import { Charmonman, IBM_Plex_Mono, Noto_Serif_Thai, Sarabun } from "next/font/g
 import { DustMotes } from "@/components/DustMotes";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
+import { SITE_NAME, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const display = Charmonman({
@@ -43,12 +44,20 @@ export const metadata: Metadata = {
   },
   description:
     "ชั้นวางเรื่องผีที่เจ้าของห้องฟังมาจาก YouTube แล้วเก็บไว้ เพราะมันยังวนอยู่ในหัว กดอ่านบันทึก แล้วกระโดดไปคลิปต้นฉบับได้เลย",
-  metadataBase: new URL("https://hongkepphi.local"),
+  metadataBase: new URL(SITE_URL),
+  alternates: { canonical: "/" },
   openGraph: {
-    title: "ห้องเก็บผี",
+    title: SITE_NAME,
     description: "เรื่องผีจาก YouTube ที่ฟังแล้วเก็บไว้ ไม่ใช่คลังทั้งอินเทอร์เน็ต",
+    siteName: SITE_NAME,
+    url: SITE_URL,
     locale: "th_TH",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_NAME,
+    description: "เรื่องผีจาก YouTube ที่ฟังแล้วเก็บไว้ ไม่ใช่คลังทั้งอินเทอร์เน็ต",
   },
 };
 

@@ -34,9 +34,26 @@ export async function generateMetadata({
   const { slug } = await params;
   const story = getStoryBySlug(slug);
   if (!story) return { title: "ไม่พบบันทึก" };
+
+  const description = story.excerpt;
+  const url = `/stories/${story.slug}`;
+
   return {
     title: story.title,
-    description: story.excerpt,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      title: story.title,
+      description,
+      url,
+      type: "article",
+      publishedTime: story.listenedAt,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: story.title,
+      description,
+    },
   };
 }
 

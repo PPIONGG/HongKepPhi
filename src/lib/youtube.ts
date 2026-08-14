@@ -4,8 +4,9 @@ export function youtubeWatchUrl(id: string) {
   return `https://www.youtube.com/watch?v=${id}`;
 }
 
-export function youtubeEmbedUrl(id: string) {
-  return `https://www.youtube-nocookie.com/embed/${id}`;
+export function youtubeEmbedUrl(id: string, autoplay = false) {
+  const base = `https://www.youtube-nocookie.com/embed/${id}`;
+  return autoplay ? `${base}?autoplay=1` : base;
 }
 
 export function youtubeThumb(id: string, quality: "hq" | "max" = "hq") {
