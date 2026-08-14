@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Play } from "lucide-react";
 import { CATEGORIES, type Story } from "@/lib/types";
 import { formatListenedAt } from "@/lib/youtube";
+import { WarningChip } from "./ContentWarnings";
 import { SpotlightCard } from "./reactbits/SpotlightCard";
 import { StoryThumb } from "./StoryThumb";
 import { TagList } from "./TagList";
@@ -69,7 +70,8 @@ export function StoryCard({
           </p>
         </div>
       </Link>
-      <div className="mt-auto px-4 pt-1 pb-3">
+      <div className="mt-auto flex flex-col items-start gap-2 px-4 pt-1 pb-3">
+        <WarningChip warnings={story.warnings} />
         <TagList tags={story.tags} activeTag={activeTag} />
       </div>
       <div className="flex flex-col gap-2 px-4 pb-4 sm:flex-row sm:items-center sm:justify-between sm:gap-3">

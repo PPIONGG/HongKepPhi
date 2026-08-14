@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Play } from "lucide-react";
 import { CATEGORIES, type Story } from "@/lib/types";
 import { formatListenedAt, youtubeWatchUrl } from "@/lib/youtube";
+import { WarningChip } from "./ContentWarnings";
 import { DecryptedText } from "./reactbits/DecryptedText";
 import { ShinyText } from "./reactbits/ShinyText";
 import { StoryThumb } from "./StoryThumb";
@@ -58,6 +59,8 @@ export function FeaturedStory({ story }: { story: Story }) {
           <p className="mt-3 font-mono text-[11px] tracking-wide text-dust">
             เก็บเมื่อ {formatListenedAt(story.listenedAt)}
           </p>
+
+          <WarningChip warnings={story.warnings} className="mt-4" />
 
           <TagList tags={story.tags} className="mt-4" />
 

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { DecryptedText } from "@/components/reactbits/DecryptedText";
+import { ContentWarnings } from "@/components/ContentWarnings";
 import { RelatedStories } from "@/components/RelatedStories";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { StoryThumb } from "@/components/StoryThumb";
@@ -91,6 +92,8 @@ export default async function StoryPage({ params }: StoryPageProps) {
       </header>
 
       <div className="mx-auto w-full max-w-5xl px-4 pt-4 pb-28 sm:px-6 sm:pt-8 lg:pb-16">
+        <ContentWarnings warnings={story.warnings} className="mb-5" />
+
         <YoutubeEmbed youtubeId={story.youtubeId} title={story.title} />
 
         <div className="mt-8 grid gap-6 lg:mt-10 lg:grid-cols-[minmax(0,1fr)_240px] lg:gap-10">

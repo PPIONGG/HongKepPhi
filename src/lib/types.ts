@@ -29,4 +29,6 @@ export type Story = {
   excerpt: string;
   note: string;
   tags: string[];
+  /** เหตุการณ์หนักในเรื่อง สำหรับเตือนก่อนคนกดออกไปฟัง */
+  warnings?: string[];
 };
