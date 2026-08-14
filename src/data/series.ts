@@ -15,8 +15,8 @@ export const seriesList: Series[] = [
     blurb: "สามคลิปที่คุณเคเล่าต่อกัน ฟังเรียงแล้วประติดประต่อได้",
     episodes: [
       { order: 1, title: "ที่เก่า", slug: "thi-kao" },
-      { order: 2, title: "บังเอิญ" },
-      { order: 3, title: "ขอให้จบ" },
+      { order: 2, title: "บังเอิญ", slug: "bang-oen" },
+      { order: 3, title: "ขอให้จบ", slug: "kho-hai-job" },
     ],
   },
 ];
