@@ -25,7 +25,6 @@ export type Story = {
   duration: string;
   listenedAt: string;
   category: CategoryId;
-  featured?: boolean;
   excerpt: string;
   note: string;
   tags: string[];
