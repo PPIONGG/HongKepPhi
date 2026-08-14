@@ -4,11 +4,13 @@ import { notFound } from "next/navigation";
 import { DecryptedText } from "@/components/reactbits/DecryptedText";
 import { ContentWarnings } from "@/components/ContentWarnings";
 import { RelatedStories } from "@/components/RelatedStories";
+import { SeriesBox } from "@/components/SeriesBox";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { StoryThumb } from "@/components/StoryThumb";
 import { TagList } from "@/components/TagList";
 import { YoutubeButton } from "@/components/YoutubeButton";
 import { YoutubeEmbed } from "@/components/YoutubeEmbed";
+import { getSeriesForStory } from "@/data/series";
 import {
   getNeighborStories,
   getRelatedStories,
@@ -45,6 +47,7 @@ export default async function StoryPage({ params }: StoryPageProps) {
 
   const related = getRelatedStories(story.slug);
   const { prev, next } = getNeighborStories(story.slug);
+  const seriesEntry = getSeriesForStory(story.slug);
 
   return (
     <article data-sticky-listen>
@@ -139,6 +142,10 @@ export default async function StoryPage({ params }: StoryPageProps) {
             </div>
           </aside>
         </div>
+
+        {seriesEntry && (
+          <SeriesBox series={seriesEntry.series} currentSlug={story.slug} />
+        )}
 
         <RelatedStories stories={related} />
       </div>

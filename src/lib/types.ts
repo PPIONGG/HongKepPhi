@@ -32,3 +32,17 @@ export type Story = {
   /** เหตุการณ์หนักในเรื่อง สำหรับเตือนก่อนคนกดออกไปฟัง */
   warnings?: string[];
 };
+
+export type SeriesEpisode = {
+  order: number;
+  title: string;
+  /** มีเมื่อเก็บเข้าตู้แล้วเท่านั้น ไม่มี = ยังไม่ได้เก็บ */
+  slug?: string;
+};
+
+export type Series = {
+  slug: string;
+  title: string;
+  blurb: string;
+  episodes: SeriesEpisode[];
+};
