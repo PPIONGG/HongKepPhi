@@ -19,6 +19,25 @@ export const seriesList: Series[] = [
       { order: 3, title: "ขอให้จบ", slug: "kho-hai-job" },
     ],
   },
+  {
+    slug: "khun-kan",
+    title: "โรงพยาบาลของคุณกัน",
+    blurb: "เรื่องจากโรงพยาบาลเดียวกัน จักรวาลเดียวกัน ฟังก่อนหรือหลังก็ได้",
+    episodes: [
+      { order: 1, title: "เหตุเกิดที่ชั้น 20", slug: "chan-20" },
+      { order: 2, title: "คนไข้ห้ามออกจากห้องนะคะ" },
+    ],
+  },
+  {
+    slug: "tat-sin-jai-phit-phlat",
+    title: "ตัดสินใจผิดพลาด",
+    blurb: "ซีรีส์สามตอนของคุณอาร์ม จอมหักมุม ต้องฟังเรียงตามลำดับ",
+    episodes: [
+      { order: 1, title: "ปฐมบท", slug: "tat-sin-jai-phit-phlat-1" },
+      { order: 2, title: "เรื่องผี" },
+      { order: 3, title: "ของฝาก", slug: "tat-sin-jai-phit-phlat-3" },
+    ],
+  },
 ];
 
 export function getSeriesForStory(storySlug: string) {
