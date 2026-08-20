@@ -11,11 +11,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 1,
     },
-    {
-      url: `${SITE_URL}/about`,
-      changeFrequency: "yearly",
-      priority: 0.5,
-    },
     ...stories.map((story) => ({
       url: `${SITE_URL}/stories/${story.slug}`,
       lastModified: new Date(story.listenedAt),
