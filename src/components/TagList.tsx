@@ -1,16 +1,15 @@
 import Link from "next/link";
-
-export function tagHref(tag: string) {
-  return `/?tag=${encodeURIComponent(tag)}#shelf`;
-}
+import { tagHref } from "@/lib/channels";
 
 export function TagList({
   tags,
   activeTag,
+  cabinet,
   className = "",
 }: {
   tags: string[];
   activeTag?: string;
+  cabinet?: string;
   className?: string;
 }) {
   if (tags.length === 0) return null;
@@ -22,7 +21,7 @@ export function TagList({
         return (
           <li key={tag}>
             <Link
-              href={tagHref(tag)}
+              href={tagHref(tag, cabinet)}
               aria-label={`ดูเรื่องที่ติดแท็ก ${tag}`}
               className={`inline-flex min-h-8 cursor-pointer items-center border px-3 py-1 text-sm transition-colors duration-200 ${
                 active

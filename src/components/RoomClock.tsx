@@ -3,17 +3,17 @@
 import { useEffect, useState } from "react";
 
 export function RoomClock() {
-  const [label, setLabel] = useState("ในห้องนี้");
+  const [time, setTime] = useState("--:--");
 
   useEffect(() => {
     const tick = () => {
-      const now = new Date();
-      const time = new Intl.DateTimeFormat("th-TH", {
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: false,
-      }).format(now);
-      setLabel(`ในห้องนี้ · ${time}`);
+      setTime(
+        new Intl.DateTimeFormat("th-TH", {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        }).format(new Date()),
+      );
     };
     tick();
     const id = window.setInterval(tick, 30_000);
@@ -21,8 +21,9 @@ export function RoomClock() {
   }, []);
 
   return (
-    <span className="font-mono text-[10px] tracking-[0.18em] text-dust uppercase">
-      {label}
-    </span>
+    <time className="font-mono text-[10px] tracking-[0.18em] text-dust uppercase">
+      <span className="sm:hidden">{time}</span>
+      <span className="hidden sm:inline">ในห้องนี้ · {time}</span>
+    </time>
   );
 }
