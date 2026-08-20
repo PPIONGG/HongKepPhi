@@ -112,7 +112,7 @@ textarea {
 }
 
 body:has([data-sticky-listen]) footer {
-  padding-bottom: 5.75rem;
+  padding-bottom: 8.5rem;
 }
 
 @media (min-width: 1024px) {

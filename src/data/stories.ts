@@ -9,7 +9,7 @@ import type { Story } from "@/lib/types";
  *   catalog: "HK-002",
  *   title: "ชื่อเรื่องตามคลิป",
  *   guest: "คุณ... (ถ้ามี)",
- *   channel: "ชื่อช่อง",
+ *   channel: "THE GHOST RADIO", // หรือ "Tang Makkaporn" ให้ตรง name ใน channels.ts
  *   youtubeId: "วางเฉพาะรหัสหลัง v=",
  *   duration: "43:02",
  *   listenedAt: "2026-08-10",
@@ -215,17 +215,26 @@ export function getStoryBySlug(slug: string) {
   return stories.find((story) => story.slug === slug);
 }
 
-/** เรื่องบนสุดของอาร์เรย์คือเรื่องที่เพิ่งเก็บเสมอ */
-export function getFeaturedStory() {
-  return stories[0];
+/** เรื่องแรกที่ลงอยู่ท้ายอาร์เรย์ ไล่ฟังจากเก่าไปใหม่ */
+export function getPostedQueue() {
+  return [...stories].toReversed();
 }
 
-export function getNeighborStories(slug: string) {
-  const index = stories.findIndex((story) => story.slug === slug);
-  if (index < 0) return { prev: undefined, next: undefined };
+export function getFirstPostedStory() {
+  return stories[stories.length - 1];
+}
+
+export function getPostedNeighbors(slug: string) {
+  const queue = getPostedQueue();
+  const index = queue.findIndex((story) => story.slug === slug);
+  if (index < 0) {
+    return { prev: undefined, next: undefined, position: 0, total: queue.length };
+  }
   return {
-    prev: stories[index === 0 ? stories.length - 1 : index - 1],
-    next: stories[index === stories.length - 1 ? 0 : index + 1],
+    prev: queue[index - 1],
+    next: queue[index + 1],
+    position: index + 1,
+    total: queue.length,
   };
 }
 

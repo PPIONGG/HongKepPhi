@@ -1,9 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import { Charmonman, IBM_Plex_Mono, Noto_Serif_Thai, Sarabun } from "next/font/google";
 import { DustMotes } from "@/components/DustMotes";
+import { ListenedProvider } from "@/components/ListenedProvider";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
-import { SITE_NAME, SITE_URL } from "@/lib/site";
+import { SITE_AUTHOR, SITE_NAME, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const display = Charmonman({
@@ -43,12 +44,14 @@ export const metadata: Metadata = {
     template: "%s · ห้องเก็บผี",
   },
   description:
-    "ชั้นวางเรื่องผีที่เจ้าของห้องฟังมาจาก YouTube แล้วเก็บไว้ เพราะมันยังวนอยู่ในหัว กดอ่านบันทึก แล้วกระโดดไปคลิปต้นฉบับได้เลย",
+    "เรื่องผีที่ปองฟังแล้วเลือกมาให้เพื่อนพี่น้อง กดเปิดคลิปต้นฉบับบน YouTube ได้เลย",
   metadataBase: new URL(SITE_URL),
+  authors: [{ name: SITE_AUTHOR.name, url: SITE_AUTHOR.github }],
+  creator: SITE_AUTHOR.name,
   alternates: { canonical: "/" },
   openGraph: {
     title: SITE_NAME,
-    description: "เรื่องผีจาก YouTube ที่ฟังแล้วเก็บไว้ ไม่ใช่คลังทั้งอินเทอร์เน็ต",
+    description: "เรื่องผีที่ปองฟังแล้วเลือกมาให้ ไม่ต้องสุ่มคลิปเอง",
     siteName: SITE_NAME,
     url: SITE_URL,
     locale: "th_TH",
@@ -57,7 +60,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: SITE_NAME,
-    description: "เรื่องผีจาก YouTube ที่ฟังแล้วเก็บไว้ ไม่ใช่คลังทั้งอินเทอร์เน็ต",
+    description: "เรื่องผีที่ปองฟังแล้วเลือกมาให้ ไม่ต้องสุ่มคลิปเอง",
   },
 };
 
@@ -75,11 +78,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           ข้ามไปเนื้อหา
         </a>
         <DustMotes />
-        <SiteHeader />
-        <main id="main" className="relative z-10 flex-1">
-          {children}
-        </main>
-        <SiteFooter />
+        <ListenedProvider>
+          <SiteHeader />
+          <main id="main" className="relative z-10 flex-1">
+            {children}
+          </main>
+          <SiteFooter />
+        </ListenedProvider>
       </body>
     </html>
   );

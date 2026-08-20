@@ -10,9 +10,10 @@ import { StoryThumb } from "@/components/StoryThumb";
 import { TagList } from "@/components/TagList";
 import { YoutubeButton } from "@/components/YoutubeButton";
 import { YoutubeEmbed } from "@/components/YoutubeEmbed";
+import { ListenedToggle } from "@/components/ListenedToggle";
 import { getSeriesForStory } from "@/data/series";
 import {
-  getNeighborStories,
+  getPostedNeighbors,
   getRelatedStories,
   getStoryBySlug,
   stories,
@@ -63,7 +64,7 @@ export default async function StoryPage({ params }: StoryPageProps) {
   if (!story) notFound();
 
   const related = getRelatedStories(story.slug);
-  const { prev, next } = getNeighborStories(story.slug);
+  const posted = getPostedNeighbors(story.slug);
   const seriesEntry = getSeriesForStory(story.slug);
 
   return (
@@ -111,7 +112,7 @@ export default async function StoryPage({ params }: StoryPageProps) {
         </div>
       </header>
 
-      <div className="mx-auto w-full max-w-5xl px-4 pt-4 pb-28 sm:px-6 sm:pt-8 lg:pb-16">
+      <div className="mx-auto w-full max-w-5xl px-4 pt-4 pb-36 sm:px-6 sm:pt-8 lg:pb-16">
         <ContentWarnings warnings={story.warnings} className="mb-5" />
 
         <YoutubeEmbed youtubeId={story.youtubeId} title={story.title} />
@@ -125,8 +126,9 @@ export default async function StoryPage({ params }: StoryPageProps) {
               {story.note}
             </p>
             <TagList tags={story.tags} className="mt-6" />
-            <div className="mt-8 hidden lg:block">
+            <div className="mt-8 hidden gap-3 lg:flex lg:flex-wrap lg:items-center">
               <YoutubeButton youtubeId={story.youtubeId} title={story.title} size="lg" />
+              <ListenedToggle slug={story.slug} />
             </div>
           </RevealOnScroll>
 
@@ -135,27 +137,34 @@ export default async function StoryPage({ params }: StoryPageProps) {
               คลิปเป็นของ {story.channel} ห้องนี้แค่เก็บทางกลับไปฟัง
             </p>
             <p className="mt-4 font-mono text-[11px] tracking-[0.16em] text-dust uppercase">
-              ใบถัดไปในตู้
+              ไล่ตามที่ปองลง
+            </p>
+            <p className="mt-1 font-mono text-[11px] text-dust">
+              เรื่อง {posted.position} จาก {posted.total}
             </p>
             <div className="mt-3 grid grid-cols-2 gap-2 lg:grid-cols-1">
-              {prev ? (
+              {posted.prev ? (
                 <Link
-                  href={`/stories/${prev.slug}`}
+                  href={`/stories/${posted.prev.slug}`}
                   className="min-h-11 min-w-0 cursor-pointer border border-paper/10 px-3 py-2 text-sm text-paper hover:border-ember"
                 >
-                  <span className="block text-[11px] text-dust">ก่อนหน้า</span>
-                  <span className="line-clamp-2">{prev.title}</span>
+                  <span className="block text-[11px] text-dust">เรื่องก่อน</span>
+                  <span className="line-clamp-2">{posted.prev.title}</span>
                 </Link>
-              ) : null}
-              {next ? (
+              ) : (
+                <p className="px-1 py-2 text-sm text-dust">นี่เรื่องแรกที่ลง</p>
+              )}
+              {posted.next ? (
                 <Link
-                  href={`/stories/${next.slug}`}
+                  href={`/stories/${posted.next.slug}`}
                   className="min-h-11 min-w-0 cursor-pointer border border-paper/10 px-3 py-2 text-sm text-paper hover:border-ember"
                 >
-                  <span className="block text-[11px] text-dust">ถัดไป</span>
-                  <span className="line-clamp-2">{next.title}</span>
+                  <span className="block text-[11px] text-dust">เรื่องถัดไป</span>
+                  <span className="line-clamp-2">{posted.next.title}</span>
                 </Link>
-              ) : null}
+              ) : (
+                <p className="px-1 py-2 text-sm text-dust">ไล่ครบแล้ว</p>
+              )}
             </div>
           </aside>
         </div>
@@ -168,7 +177,10 @@ export default async function StoryPage({ params }: StoryPageProps) {
       </div>
 
       <div className="fixed inset-x-0 bottom-0 z-30 border-t border-paper/10 bg-night/95 px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur-md lg:hidden">
-        <YoutubeButton youtubeId={story.youtubeId} title={story.title} size="lg" full />
+        <div className="flex flex-col gap-2">
+          <YoutubeButton youtubeId={story.youtubeId} title={story.title} size="lg" full />
+          <ListenedToggle slug={story.slug} className="w-full" />
+        </div>
       </div>
     </article>
   );

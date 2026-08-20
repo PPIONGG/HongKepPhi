@@ -6,6 +6,7 @@ type YoutubeButtonProps = {
   title: string;
   size?: "md" | "lg";
   full?: boolean | "mobile";
+  label?: string;
 };
 
 export function YoutubeButton({
@@ -13,6 +14,7 @@ export function YoutubeButton({
   title,
   size = "md",
   full = false,
+  label = "ฟังเลย",
 }: YoutubeButtonProps) {
   const large = size === "lg";
 
@@ -27,7 +29,7 @@ export function YoutubeButton({
       } ${full === true ? "w-full" : full === "mobile" ? "w-full sm:w-auto" : ""}`}
     >
       <Play className={large ? "size-4 fill-current" : "size-3.5 fill-current"} aria-hidden />
-      เปิดฟังบน YouTube
+      {label}
     </a>
   );
 }
