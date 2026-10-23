@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { Charmonman, IBM_Plex_Mono, Noto_Serif_Thai, Sarabun } from "next/font/google";
-import { DustMotes } from "@/components/DustMotes";
 import { ListenedProvider } from "@/components/ListenedProvider";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -68,6 +67,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="th"
+      data-scroll-behavior="smooth"
       className={`${display.variable} ${serif.variable} ${sans.variable} ${mono.variable} h-full antialiased`}
     >
       <body className="relative flex min-h-dvh flex-col">
@@ -77,7 +77,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         >
           ข้ามไปเนื้อหา
         </a>
-        <DustMotes />
         <ListenedProvider>
           <SiteHeader />
           <main id="main" className="relative z-10 flex-1">

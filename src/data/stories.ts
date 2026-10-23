@@ -220,10 +220,6 @@ export function getPostedQueue() {
   return [...stories].toReversed();
 }
 
-export function getFirstPostedStory() {
-  return stories[stories.length - 1];
-}
-
 export function getPostedNeighbors(slug: string) {
   const queue = getPostedQueue();
   const index = queue.findIndex((story) => story.slug === slug);

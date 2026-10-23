@@ -11,6 +11,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 1,
     },
+    {
+      url: `${SITE_URL}/shelf`,
+      lastModified: new Date(latestListenedAt(stories)),
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
     ...stories.map((story) => ({
       url: `${SITE_URL}/stories/${story.slug}`,
       lastModified: new Date(story.listenedAt),

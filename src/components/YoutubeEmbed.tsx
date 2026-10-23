@@ -8,14 +8,16 @@ import { youtubeEmbedUrl } from "@/lib/youtube";
 export function YoutubeEmbed({
   youtubeId,
   title,
+  className = "bg-frame p-1.5 shadow-[0_20px_50px_rgba(0,0,0,0.35)] sm:p-2",
 }: {
   youtubeId: string;
   title: string;
+  className?: string;
 }) {
   const [playing, setPlaying] = useState(false);
 
   return (
-    <div className="bg-frame p-1.5 shadow-[0_20px_50px_rgba(0,0,0,0.35)] sm:p-2">
+    <div className={className}>
       <div className="relative aspect-video overflow-hidden bg-night">
         {playing ? (
           <iframe
@@ -35,7 +37,7 @@ export function YoutubeEmbed({
             <StoryThumb
               youtubeId={youtubeId}
               alt=""
-              priority
+              preload
               sizes="(min-width: 1024px) 1024px, 100vw"
               className="object-cover transition duration-500 group-hover:scale-[1.02]"
             />
