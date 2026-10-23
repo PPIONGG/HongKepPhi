@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { CabinetCode } from "./CabinetCode";
 import { RoomClock } from "./RoomClock";
+import { SiteNav } from "./SiteNav";
 
 export function SiteHeader() {
   return (
@@ -28,7 +29,10 @@ export function SiteHeader() {
             <RoomClock />
           </span>
         </Link>
-        <CabinetCode />
+        <div className="flex shrink-0 items-center gap-1 sm:gap-3">
+          <SiteNav />
+          <CabinetCode />
+        </div>
       </div>
     </header>
   );
