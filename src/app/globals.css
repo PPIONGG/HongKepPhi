@@ -83,24 +83,6 @@ textarea {
   touch-action: manipulation;
 }
 
-.chip-row {
-  display: flex;
-  gap: 0.5rem;
-  overflow-x: auto;
-  overscroll-behavior-x: contain;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-}
-
-.chip-row::-webkit-scrollbar {
-  display: none;
-}
-
-.chip-row > * {
-  scroll-snap-align: start;
-}
-
 body:has([data-sticky-listen]) footer {
   padding-bottom: 8.5rem;
 }
@@ -111,50 +93,9 @@ body:has([data-sticky-listen]) footer {
   }
 }
 
-.ember-pulse {
-  animation: ember-pulse 4.8s var(--ease) infinite;
-}
-
-.rise-in {
-  animation: rise-in 700ms var(--ease) both;
-}
-
-.stagger-card {
-  animation: rise-in 560ms var(--ease) both;
-}
-
-@keyframes ember-pulse {
-  0%,
-  100% {
-    opacity: 0.55;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.08);
-  }
-}
-
-@keyframes rise-in {
-  from {
-    opacity: 0;
-    transform: translateY(14px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
-  }
-
-  .ember-pulse,
-  .rise-in,
-  .stagger-card {
-    animation: none;
   }
 
   *,

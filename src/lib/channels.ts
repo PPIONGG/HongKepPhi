@@ -89,29 +89,3 @@ export function presentCabinets(stories: Story[]) {
     return a.name.localeCompare(b.name, "th");
   });
 }
-
-export function cabinetHref(cabinet: string, tag?: string) {
-  const params = new URLSearchParams();
-  if (cabinet !== ORIGINAL_CABINET) params.set("cabinet", cabinet);
-  if (tag) params.set("tag", tag);
-  const query = params.toString();
-  return query ? `/?${query}#shelf` : "/#shelf";
-}
-
-export function tagHref(tag: string, cabinet = ORIGINAL_CABINET) {
-  return cabinetHref(cabinet, tag);
-}
-
-export function cabinetCopy(cabinet: string, stories: Story[]) {
-  if (cabinet === ALL_CABINETS) {
-    return {
-      title: "ทุกตู้ในบ้าน",
-      blurb: "เรื่องที่ปองหยิบมาจากทุกช่อง",
-    };
-  }
-  const known = CHANNELS.find((item) => item.slug === cabinet);
-  if (known) return { title: `ตู้ ${known.name}`, blurb: known.blurb };
-  const sample = stories.find((story) => channelSlug(story.channel) === cabinet);
-  if (sample) return { title: `ตู้ ${sample.channel}`, blurb: "" };
-  return { title: "ยังไม่มีตู้นี้", blurb: "ลิงก์นี้อ้างถึงตู้ที่ยังไม่ได้เก็บเรื่อง" };
-}
