@@ -8,14 +8,16 @@ import { youtubeEmbedUrl } from "@/lib/youtube";
 export function YoutubeEmbed({
   youtubeId,
   title,
+  className = "bg-frame p-1.5 shadow-[0_20px_50px_rgba(0,0,0,0.35)] sm:p-2",
 }: {
   youtubeId: string;
   title: string;
+  className?: string;
 }) {
   const [playing, setPlaying] = useState(false);
 
   return (
-    <div className="bg-frame p-1.5 shadow-[0_20px_50px_rgba(0,0,0,0.35)] sm:p-2">
+    <div className={className}>
       <div className="relative aspect-video overflow-hidden bg-night">
         {playing ? (
           <iframe
