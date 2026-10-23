@@ -67,6 +67,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="th"
+      data-scroll-behavior="smooth"
       className={`${display.variable} ${serif.variable} ${sans.variable} ${mono.variable} h-full antialiased`}
     >
       <body className="relative flex min-h-dvh flex-col">

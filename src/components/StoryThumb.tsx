@@ -7,7 +7,7 @@ import { youtubeThumb } from "@/lib/youtube";
 type StoryThumbProps = {
   youtubeId: string;
   alt: string;
-  priority?: boolean;
+  preload?: boolean;
   sizes: string;
   className?: string;
 };
@@ -15,7 +15,7 @@ type StoryThumbProps = {
 export function StoryThumb({
   youtubeId,
   alt,
-  priority = false,
+  preload = false,
   sizes,
   className,
 }: StoryThumbProps) {
@@ -27,7 +27,7 @@ export function StoryThumb({
         src={src}
         alt={alt}
         fill
-        priority={priority}
+        preload={preload}
         sizes={sizes}
         className={className}
         onLoad={(event) => {

@@ -37,7 +37,7 @@ export function YoutubeEmbed({
             <StoryThumb
               youtubeId={youtubeId}
               alt=""
-              priority
+              preload
               sizes="(min-width: 1024px) 1024px, 100vw"
               className="object-cover transition duration-500 group-hover:scale-[1.02]"
             />
