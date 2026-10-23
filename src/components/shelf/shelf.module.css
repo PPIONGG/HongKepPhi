@@ -26,6 +26,7 @@
 }
 
 .top,
+.hint,
 .find,
 .glowNote {
   position: relative;
@@ -45,6 +46,93 @@
   font: 700 22px/1 var(--font-display), serif;
   color: var(--paper);
   white-space: nowrap;
+}
+
+.switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  margin-left: auto;
+  padding: 0 14px 0 8px;
+  border: 1px solid rgb(243 230 208 / 0.18);
+  border-radius: 12px;
+  background: rgb(20 14 10 / 0.85);
+  color: var(--paper);
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.switch:disabled {
+  cursor: default;
+}
+
+.plate {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 36px;
+  border-radius: 6px;
+  background: linear-gradient(#efe6d6, #cfc3ad);
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.2);
+}
+
+.lever {
+  position: relative;
+  width: 10px;
+  height: 18px;
+  border-radius: 3px;
+  background: linear-gradient(#fbf6ec, #d8ccb5);
+  box-shadow: 0 3px 0 rgb(0 0 0 / 0.25);
+  translate: 0 3px;
+  transition: translate 0.2s;
+}
+
+.lever::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #9dffc0;
+  box-shadow: 0 0 6px #6dff9f;
+}
+
+.switch[aria-pressed="true"] .lever {
+  translate: 0 -3px;
+  box-shadow: 0 -3px 0 rgb(0 0 0 / 0.2);
+}
+
+.switch b {
+  font-weight: 600;
+  color: var(--phos);
+}
+
+.switch[aria-pressed="true"] b {
+  color: #ffe3a8;
+}
+
+.hint {
+  max-width: 56ch;
+  margin: 0;
+  font-size: 15px;
+  color: rgb(243 230 208 / 0.62);
+}
+
+.forTouch {
+  display: none;
+}
+
+@media (hover: none) {
+  .forMouse {
+    display: none;
+  }
+
+  .forTouch {
+    display: inline;
+  }
 }
 
 .find {
@@ -299,6 +387,46 @@
   margin: 14px 0 0;
   font: 400 13px/1.5 var(--font-mono), monospace;
   color: rgb(239 226 200 / 0.5);
+}
+
+/*
+ * ความมืดอยู่ z 5 เทปที่เรืองแสง สติกเกอร์ใหม่ และแถบหัวห้องลอยเหนือมันด้วย z 6
+ * ได้เพราะกล่องที่ครอบพวกนี้จนถึง <main> ไม่สร้าง stacking context ของตัวเอง
+ * เติม transform, opacity, filter หรือ z-index ให้กล่องพวกนั้นเมื่อไร ของที่ควรสว่างจะจมลงไปในความมืด
+ */
+.dark {
+  --lx: 50vw;
+  --ly: 55vh;
+  --beam: 230px;
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  background: radial-gradient(
+    circle var(--beam) at var(--lx) var(--ly),
+    rgb(10 6 3 / 0) 0%,
+    rgb(10 6 3 / 0.08) 38%,
+    rgb(6 4 2 / 0.82) 82%,
+    rgb(4 2 1 / 0.965) 100%
+  );
+  opacity: 0;
+  visibility: hidden;
+  transition: visibility 0s linear 0.8s;
+}
+
+.room[data-lights="off"] .dark {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.45s;
+}
+
+.dust {
+  position: fixed;
+  inset: 0;
+  z-index: 7;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
 }
 
 @media (min-width: 640px) {
