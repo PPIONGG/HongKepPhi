@@ -211,7 +211,7 @@
 .photo {
   position: relative;
   width: min(100%, 600px);
-  margin: 30px auto 24px;
+  margin: 40px auto 24px;
   padding: 10px 10px 0;
   background: #fff;
   box-shadow:
