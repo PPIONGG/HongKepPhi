@@ -4,6 +4,7 @@ import { Check } from "lucide-react";
 import Link from "next/link";
 import {
   useEffect,
+  useEffectEvent,
   useId,
   useRef,
   useState,
@@ -13,6 +14,7 @@ import {
 import { useListened } from "@/components/ListenedProvider";
 import { stories } from "@/data/stories";
 import { hand } from "./fonts";
+import { JCard } from "./JCard";
 import { prefersReducedMotion, switchLights, useRoomLights } from "./lights";
 import styles from "./shelf.module.css";
 import {
@@ -53,7 +55,7 @@ function cx(...names: Array<string | false | null | undefined>) {
   return names.filter(Boolean).join(" ");
 }
 
-function findTape(root: HTMLElement | null, slug: string | undefined) {
+function findTape(root: HTMLElement | null, slug: string | null | undefined) {
   if (!root || !slug) return null;
   return root.querySelector<HTMLElement>(`[data-tape="${CSS.escape(slug)}"]`);
 }
@@ -202,13 +204,16 @@ export function TapeRoom({ initialGlow }: { initialGlow: GlowQuery }) {
   const lights = useRoomLights();
   const live = lights !== "pending";
   const [glow, setGlow] = useState(initialGlow);
+  const [openSlug, setOpenSlug] = useState<string | null>(null);
   const { heard, ready } = useListened();
   const searchId = useId();
+  const cardId = useId();
   const roomRef = useRef<HTMLDivElement>(null);
   const darkRef = useRef<HTMLDivElement>(null);
   const dustRef = useRef<HTMLCanvasElement>(null);
   const beamRef = useRef<Beam>({ x: 0, y: 0, radius: 230 });
   const glowCount = TAPES.filter((tape) => tapeMatches(tape, glow)).length;
+  const openTape = TAPES.find((tape) => tape.story.slug === openSlug);
 
   useEffect(() => {
     const dark = darkRef.current;
@@ -248,6 +253,35 @@ export function TapeRoom({ initialGlow }: { initialGlow: GlowQuery }) {
     if (lights !== "off" || !canvas || prefersReducedMotion()) return;
     return runDust(canvas, beamRef.current);
   }, [lights]);
+
+  function closeCard() {
+    setOpenSlug(null);
+    findTape(roomRef.current, openSlug)?.focus({ preventScroll: true });
+  }
+
+  const onEscape = useEffectEvent(() => closeCard());
+
+  useEffect(() => {
+    if (!openSlug) return;
+    const tape = findTape(roomRef.current, openSlug);
+    const frame = tape
+      ? requestAnimationFrame(() => aim(darkRef.current, beamRef.current, tape))
+      : 0;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onEscape();
+    };
+    document.addEventListener("keydown", onKey);
+    return () => {
+      cancelAnimationFrame(frame);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [openSlug]);
+
+  function glowTag(tag: string) {
+    setGlow((current) =>
+      current.kind === "tag" && current.tag === tag ? NO_GLOW : { kind: "tag", tag },
+    );
+  }
 
   function flipLights() {
     const dark = darkRef.current;
@@ -328,25 +362,41 @@ export function TapeRoom({ initialGlow }: { initialGlow: GlowQuery }) {
             {tapes.length > 0 ? (
               <ul className={styles.shelf}>
                 {tapes.map((tape) => {
+                  const { slug } = tape.story;
                   const glowing = tapeMatches(tape, glow);
-                  const isHeard = ready && heard.has(tape.story.slug);
+                  const isHeard = ready && heard.has(slug);
+                  const isOpen = slug === openSlug;
+                  const shared = {
+                    "data-tape": slug,
+                    "aria-label": tapeLabel(tape, isHeard, glowing),
+                    className: cx(
+                      styles.tape,
+                      glowing && styles.glow,
+                      glow.kind !== "none" && !glowing && styles.dim,
+                      isHeard && styles.heard,
+                      isOpen && styles.selected,
+                    ),
+                    style: tapeStyle(tape),
+                    onFocus: aimAtTape,
+                  };
                   return (
-                    <li key={tape.story.slug} className={styles.slot}>
-                      <Link
-                        href={`/stories/${tape.story.slug}`}
-                        data-tape={tape.story.slug}
-                        aria-label={tapeLabel(tape, isHeard, glowing)}
-                        className={cx(
-                          styles.tape,
-                          glowing && styles.glow,
-                          glow.kind !== "none" && !glowing && styles.dim,
-                          isHeard && styles.heard,
-                        )}
-                        style={tapeStyle(tape)}
-                        onFocus={aimAtTape}
-                      >
-                        <TapeFace tape={tape} />
-                      </Link>
+                    <li key={slug} className={styles.slot}>
+                      {live ? (
+                        <button
+                          type="button"
+                          {...shared}
+                          aria-haspopup="dialog"
+                          aria-expanded={isOpen}
+                          aria-controls={isOpen ? cardId : undefined}
+                          onClick={() => setOpenSlug(slug)}
+                        >
+                          <TapeFace tape={tape} />
+                        </button>
+                      ) : (
+                        <Link href={`/stories/${slug}`} {...shared}>
+                          <TapeFace tape={tape} />
+                        </Link>
+                      )}
                     </li>
                   );
                 })}
@@ -365,6 +415,17 @@ export function TapeRoom({ initialGlow }: { initialGlow: GlowQuery }) {
       </div>
       <div ref={darkRef} className={styles.dark} aria-hidden />
       <canvas ref={dustRef} className={styles.dust} aria-hidden />
+      {openTape ? (
+        <JCard
+          key={openTape.story.slug}
+          id={cardId}
+          tape={openTape}
+          glow={glow}
+          onClose={closeCard}
+          onOpenTape={setOpenSlug}
+          onGlowTag={glowTag}
+        />
+      ) : null}
     </div>
   );
 }
